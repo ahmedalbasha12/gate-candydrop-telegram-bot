@@ -1,1 +1,0 @@
-# gate-candydrop-telegram-bot
