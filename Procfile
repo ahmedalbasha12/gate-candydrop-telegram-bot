@@ -1,1 +1,1 @@
-worker: python gate_timeline_bot.py
+web: python gate_timeline_bot.py
