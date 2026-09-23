@@ -2,6 +2,10 @@
 """Single-file Gate CandyDrop Telegram monitoring bot."""
 from __future__ import annotations
 
+import http.server
+import socketserver
+import threading
+
 import argparse
 import csv
 import hashlib
@@ -1235,6 +1239,18 @@ def main() -> None:
     schedule_monitor(app, interval, first=10)
     log.info("Bot started; interval=%s seconds", interval)
     app.run_polling(allowed_updates=Update.ALL_TYPES)
+
+def run_server():
+    try:
+        handler = http.server.SimpleHTTPRequestHandler
+        with socketserver.TCPServer(("", 8000), handler) as httpd:
+            print("🌐 Serving on port 8000")
+            httpd.serve_forever()
+    except Exception as e:
+        logger.error(f"Server error: {e}")
+
+server_thread = threading.Thread(target=run_server, daemon=True)
+server_thread.start()
 
 
 if __name__ == "__main__":
